@@ -1,72 +1,60 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityBike Premium Control Panel</title>
-    <!-- FontAwesome Icons for Luxury Look -->
+    <title>CityBike Admin Control Panel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            background: #0f172a;
-            color: #f8fafc;
+            background: #111827;
+            color: #f3f4f6;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /* Top Header */
         header {
-            background: linear-gradient(135deg, #1e1b4b, #311042);
+            background: #1f2937;
             padding: 15px;
             text-align: center;
-            border-bottom: 2px solid #06b6d4;
-            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.2);
+            border-bottom: 1px solid #374151;
         }
 
         header h1 {
-            font-size: 20px;
-            color: #06b6d4;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            font-size: 18px;
+            color: #f3f4f6;
         }
 
-        /* Bottom/Mobile Navigation Menu */
         nav {
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
+            background: #1f2937;
             position: fixed;
             bottom: 0;
             width: 100%;
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid #374151;
             z-index: 100;
         }
 
         .nav-btn {
             background: none;
             border: none;
-            color: #94a3b8;
+            color: #9ca3af;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 5px;
             font-size: 11px;
             cursor: pointer;
-            transition: all 0.3s ease;
             width: 33%;
         }
 
@@ -75,327 +63,302 @@
         }
 
         .nav-btn.active {
-            color: #06b6d4;
-            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+            color: #3b82f6;
         }
 
-        /* Main Content Container */
         main {
             flex: 1;
-            padding: 20px;
-            margin-bottom: 70px; /* Space for bottom nav */
+            padding: 15px;
+            margin-bottom: 70px;
         }
 
         .page {
             display: none;
-            animation: fadeIn 0.5s ease;
         }
 
         .page.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Home Page Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
         }
 
-        /* PAGE 1: Live Dashboard & Map Design */
-        .counter-card {
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(168, 85, 247, 0.1));
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            border-radius: 15px;
-            padding: 20px;
+        .stat-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 15px;
             text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        .counter-card h2 {
-            font-size: 14px;
-            color: #94a3b8;
-            text-transform: uppercase;
+        .stat-card h3 {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 5px;
         }
 
-        .counter-number {
-            font-size: 36px;
+        .stat-number {
+            font-size: 24px;
             font-weight: bold;
-            color: #22c55e;
-            margin: 10px 0;
-            text-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+            color: #3b82f6;
         }
 
-        .map-container {
-            background: #1e293b;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            height: 300px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
-        }
-
-        /* Fake Map styling to look premium */
-        .fake-map {
-            width: 100%;
-            height: 100%;
-            background-color: #111827;
-            background-image: 
-                radial-gradient(rgba(6, 182, 212, 0.15) 1px, transparent 0),
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 0),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 0);
-            background-size: 20px 20px;
-            position: relative;
-        }
-
-        .map-overlay-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #64748b;
-            font-size: 14px;
+        /* Search Section */
+        .search-container {
             display: flex;
-            align-items: center;
             gap: 8px;
-        }
-
-        /* Animated Bike Markers on Map */
-        .bike-marker {
-            position: absolute;
-            color: #06b6d4;
-            font-size: 18px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 2px #06b6d4); }
-            50% { transform: scale(1.2); filter: drop-shadow(0 0 8px #06b6d4); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 2px #06b6d4); }
-        }
-
-        /* PAGE 2 & 3: Search and Results Luxury Layout */
-        .search-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .search-input {
             flex: 1;
-            background: #1e293b;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 15px;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 14px;
+            background: #1f2937;
+            border: 1px solid #374151;
+            padding: 10px;
+            border-radius: 6px;
+            color: #ffffff;
             outline: none;
-            transition: border 0.3s;
-        }
-
-        .search-input:focus {
-            border-color: #06b6d4;
         }
 
         .search-btn {
-            background: #06b6d4;
-            color: #000;
+            background: #3b82f6;
+            color: #ffffff;
             border: none;
-            padding: 0 20px;
-            border-radius: 10px;
-            font-weight: bold;
+            padding: 0 15px;
+            border-radius: 6px;
             cursor: pointer;
         }
 
-        /* Glassmorphic Data Card */
-        .result-card {
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 20px;
+        /* Data Layout */
+        .data-box {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 15px;
             margin-top: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 15px;
-            margin-bottom: 15px;
+        .section-title {
+            font-size: 14px;
+            color: #9ca3af;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 4px;
         }
 
-        .profile-avatar {
-            width: 50px;
-            height: 50px;
-            background: #a855f7;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: #fff;
-        }
-
-        .info-row {
+        .info-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid #2d3748;
+            font-size: 13px;
         }
 
-        .info-label { color: #94a3b8; }
-        .info-value { color: #f8fafc; font-weight: 500; }
-
-        .doc-badge {
-            background: rgba(34, 197, 94, 0.2);
-            color: #22c55e;
-            padding: 2px 8px;
-            border-radius: 5px;
+        /* Table Style */
+        table {
+            width: 100%;
+            border-collapse: collapse;
             font-size: 12px;
+            margin-top: 5px;
+        }
+
+        table th, table td {
+            border: 1px solid #374151;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background: #2d3748;
+            color: #9ca3af;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #6b7280;
+            padding: 10px;
+        }
+
+        /* Action Buttons */
+        .action-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-suspend {
+            flex: 1;
+            background: #f59e0b;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-block {
+            flex: 1;
+            background: #ef4444;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header>
-        <h1><i class="fa-solid fa-motorcycle"></i> CityBike Control Panel</h1>
+        <h1>CityBike Admin Panel</h1>
     </header>
 
-    <!-- Main Dynamic Pages -->
     <main>
-        
-        <!-- PAGE 1: লাইভ একটিভ রাইডার ও ম্যাপ -->
-        <div id="live-page" class="page active">
-            <div class="counter-card">
-                <h2>🟢 টোটাল একটিভ রাইডার (লাইভ)</h2>
-                <div class="counter-number" id="rider-count">42</div>
-                <p style="font-size: 12px; color: #64748b;">প্রতি ৫ সেকেন্ডে লাইভ আপডেট হচ্ছে</p>
-            </div>
-
-            <div class="map-container">
-                <div class="fake-map">
-                    <!-- Dummy Live Bike Markers placed via design template -->
-                    <div class="bike-marker" style="top: 30%; left: 40%;"><i class="fa-solid fa-location-dot"></i></div>
-                    <div class="bike-marker" style="top: 55%; left: 25%; color: #a855f7;"><i class="fa-solid fa-location-dot"></i></div>
-                    <div class="bike-marker" style="top: 70%; left: 65%;"><i class="fa-solid fa-location-dot"></i></div>
-                    <div class="bike-marker" style="top: 20%; left: 75%;"><i class="fa-solid fa-location-dot"></i></div>
-                    
-                    <div class="map-overlay-text">
-                        <i class="fa-solid fa-map-location-dot"></i> নিউটাউন লাইভ জিপিএস ট্র্যাকিং ম্যাপ
-                    </div>
+        <div id="home-page" class="page active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>টোটাল রাইডার ইউজার</h3>
+                    <div class="stat-number" id="total-riders">--</div>
+                </div>
+                <div class="stat-card">
+                    <h3>টোটাল কাস্টমার ইউজার</h3>
+                    <div class="stat-number" id="total-customers">--</div>
+                </div>
+                <div class="stat-card">
+                    <h3>টোটাল রাইডার অনলাইন</h3>
+                    <div class="stat-number" id="online-riders">--</div>
+                </div>
+                <div class="stat-card">
+                    <h3>চলতি অর্ডার (কন্টিনিউয়াস)</h3>
+                    <div class="stat-number" id="active-orders">--</div>
                 </div>
             </div>
         </div>
 
-        <!-- PAGE 2: রাইডার ডিটেলস সার্চ -->
         <div id="rider-page" class="page">
-            <h3 style="margin-bottom: 15px; color: #06b6d4;">🪪 রাইডার পার্টনার ডিটেলস এক্সপ্লোরার</h3>
-            <div class="search-box">
-                <input type="tel" id="rider-search" class="search-input" placeholder="রাইডারের মোবাইল নাম্বার দিন...">
-                <button class="search-btn" onclick="searchRider()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div class="search-container">
+                <input type="tel" id="rider-phone-input" class="search-input" placeholder="রাইডারের মোবাইল নাম্বার দিন...">
+                <button class="search-btn" onclick="triggerRiderSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
 
-            <div id="rider-result" class="result-card" style="display: none;">
-                <div class="profile-header">
-                    <div class="profile-avatar"><i class="fa-solid fa-user-tie"></i></div>
-                    <div>
-                        <h4 id="res-rider-name">নাজিম আলী</h4>
-                        <p style="font-size: 12px; color: #64748b;" id="res-rider-phone">+91 9876543210</p>
-                    </div>
+            <div class="data-box">
+                <div class="section-title">রাইডার অ্যাকাউন্ট ইনফো</div>
+                <div class="info-item"><span>নাম:</span><span id="rider-name">-</span></div>
+                <div class="info-item"><span>মোবাইল নাম্বার:</span><span id="rider-phone">-</span></div>
+                <div class="info-item"><span>অ্যাকাউন্ট স্ট্যাটাস:</span><span id="rider-status">-</span></div>
+
+                <div class="section-title">ডকুমেন্টস</div>
+                <div class="info-item"><span>DRIVING LICENSE:</span><span id="rider-dl">-</span></div>
+                <div class="info-item"><span>AADHAAR CARD:</span><span id="rider-aadhaar">-</span></div>
+
+                <div class="section-title">অর্ডার হিস্ট্রি</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>অর্ডার আইডি</th>
+                            <th>তারিখ</th>
+                            <th>রুট</th>
+                            <th>ভাড়া</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rider-history-table">
+                        <tr>
+                            <td colspan="4" class="no-data">কোনো তথ্য নেই</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="action-group">
+                    <button class="btn-suspend" onclick="suspendRider()">Suspend Account</button>
+                    <button class="btn-block" onclick="blockRider()">Permanently Block</button>
                 </div>
-                <div class="info-row"><span class="info-label">অ্যাকাউন্ট স্ট্যাটাস:</span><span class="info-value doc-badge">Approved</span></div>
-                <div class="info-row"><span class="info-label">ড্রাইভিং লাইসেন্স:</span><span class="info-value">WB-12X2025001</span></div>
-                <div class="info-row"><span class="info-label">আজকের রাইড হিস্ট্রি:</span><span class="info-value">০৫ টি রাইড কমপ্লিট</span></div>
-                <div class="info-row"><span class="info-label">মোট ইনকাম:</span><span class="info-value" style="color: #22c55e;">₹ ৪৫০.০০</span></div>
             </div>
         </div>
 
-        <!-- PAGE 3: কাস্টমার ডিটেল হিস্ট্রি -->
         <div id="customer-page" class="page">
-            <h3 style="margin-bottom: 15px; color: #a855f7;">👥 কাস্টমার ডাটাবেস ও হিস্ট্রি</h3>
-            <div class="search-box">
-                <input type="tel" id="customer-search" class="search-input" placeholder="কাস্টমারের মোবাইল নাম্বার দিন...">
-                <button class="search-btn" style="background: #a855f7;" onclick="searchCustomer()"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <div class="search-container">
+                <input type="tel" id="customer-phone-input" class="search-input" placeholder="কাস্টমারের মোবাইল নাম্বার দিন...">
+                <button class="search-btn" onclick="triggerCustomerSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
 
-            <div id="customer-result" class="result-card" style="display: none;">
-                <div class="profile-header" style="border-color: rgba(168, 85, 247, 0.2);">
-                    <div class="profile-avatar" style="background:#06b6d4;"><i class="fa-solid fa-user"></i></div>
-                    <div>
-                        <h4 id="res-cust-name">রনি সরকার</h4>
-                        <p style="font-size: 12px; color: #64748b;" id="res-cust-phone">+91 9900112233</p>
-                    </div>
+            <div class="data-box">
+                <div class="section-title">কাস্টমার অ্যাকাউন্ট ইনফো</div>
+                <div class="info-item"><span>নাম:</span><span id="customer-name">-</span></div>
+                <div class="info-item"><span>মোবাইল নাম্বার:</span><span id="customer-phone">-</span></div>
+                <div class="info-item"><span>অ্যাকাউন্ট স্ট্যাটাস:</span><span id="customer-status">-</span></div>
+
+                <div class="section-title">অর্ডার হিস্ট্রি</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>অর্ডার আইডি</th>
+                            <th>তারিখ</th>
+                            <th>রুট</th>
+                            <th>ভাড়া</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customer-history-table">
+                        <tr>
+                            <td colspan="4" class="no-data">কোনো তথ্য নেই</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="action-group">
+                    <button class="btn-suspend" onclick="suspendCustomer()">Suspend Account</button>
+                    <button class="btn-block" onclick="blockCustomer()">Permanently Block</button>
                 </div>
-                <div class="info-row"><span class="info-label">মেম্বারশিপ টাইপ:</span><span class="info-value" style="color: #a855f7;">Premium Member</span></div>
-                <div class="info-row"><span class="info-label">ওয়ালেট ব্যালেন্স:</span><span class="info-value">₹ ১২৫.৫০</span></div>
-                <div class="info-row"><span class="info-label">লাস্ট রাইড রুট:</span><span class="info-value">নিউটাউন চত্বর থেকে সেক্টর ৫</span></div>
-                <div class="info-row"><span class="info-label">মোট যাতায়াত দূরত্ব:</span><span class="info-value">১২.৪ কিমি</span></div>
             </div>
         </div>
-
     </main>
 
-    <!-- Bottom Navigation Bar for Mobile Feel -->
     <nav>
-        <button class="nav-btn active" onclick="switchPage('live-page', this)">
-            <i class="fa-solid fa-chart-line"></i>
-            <span>লাইভ ট্র্যাক</span>
+        <button class="nav-btn active" onclick="navigatePage('home-page', this)">
+            <i class="fa-solid fa-house"></i>
+            <span>হোমপেজ</span>
         </button>
-        <button class="nav-btn" onclick="switchPage('rider-page', this)">
+        <button class="nav-btn" onclick="navigatePage('rider-page', this)">
             <i class="fa-solid fa-id-card"></i>
-            <span>রাইডার খোঁজ</span>
+            <span>রাইডার ডিটেলস</span>
         </button>
-        <button class="nav-btn" onclick="switchPage('customer-page', this)">
-            <i class="fa-solid fa-users-viewfinder"></i>
-            <span>কাস্টমার</span>
+        <button class="nav-btn" onclick="navigatePage('customer-page', this)">
+            <i class="fa-solid fa-user"></i>
+            <span>কাস্টমার ডিটেলস</span>
         </button>
     </nav>
 
-    <!-- Page Switch & Interaction Logic -->
     <script>
-        function switchPage(pageId, button) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            // Show selected page
+        function navigatePage(pageId, btnElement) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            
-            // Manage Active Button Look
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
         }
 
-        // Live Fake Counter Simulation
-        setInterval(() => {
-            const countEl = document.getElementById('rider-count');
-            let current = parseInt(countEl.innerText);
-            // Randomly change active counts between 38 to 47 to look alive
-            let change = Math.floor(Math.random() * 3) - 1; 
-            let nextCount = current + change;
-            if(nextCount >= 35 && nextCount <= 50) {
-                countEl.innerText = nextCount;
-            }
-        }, 4000);
-
-        // Fake Local Search for Demo Verification
-        function searchRider() {
-            const num = document.getElementById('rider-search').value;
-            if(num.trim() !== "") {
-                document.getElementById('res-rider-phone').innerText = "+91 " + num;
-                document.getElementById('rider-result').style.display = 'block';
-            }
+        // এগুলি ব্যাকএন্ডের সাথে যুক্ত করার জন্য প্রস্তুত রাখা হলো
+        function triggerRiderSearch() {
+            alert('সার্চ করা হচ্ছে... ডাটাবেস লিংক করা হলে ডেটা এখানে চলে আসবে।');
         }
 
-        function searchCustomer() {
-            const num = document.getElementById('customer-search').value;
-            if(num.trim() !== "") {
-                document.getElementById('res-cust-phone').innerText = "+91 " + num;
-                document.getElementById('customer-result').style.display = 'block';
-            }
+        function triggerCustomerSearch() {
+            alert('সার্চ করা হচ্ছে... ডাটাবেস লিংক করা হলে ডেটা এখানে চলে আসবে।');
         }
+
+        function suspendRider() { alert('রাইডার অ্যাকাউন্ট সাসপেন্ড রিকোয়েস্ট পাঠানো হলো'); }
+        function blockRider() { alert('রাইডার অ্যাকাউন্ট ব্লক রিকোয়েস্ট পাঠানো হলো'); }
+        function suspendCustomer() { alert('কাস্টমার অ্যাকাউন্ট সাসপেন্ড রিকোয়েস্ট পাঠানো হলো'); }
+        function blockCustomer() { alert('কাস্টমার অ্যাকাউন্ট ব্লক রিকোয়েস্ট পাঠানো হলো'); }
     </script>
 </body>
 </html>
